@@ -9,11 +9,13 @@ import java.util.HashSet;
 
 public class RuleManager {
 
-    protected Main plugin;
-    HashSet<String> blacklistedWorlds;
+    protected final Main plugin;
+    private final boolean autoTeleport;
+    private final HashSet<String> blacklistedWorlds;
 
     public RuleManager(Main plugin) {
         this.plugin = plugin;
+        autoTeleport = this.plugin.getConfig().getBoolean("auto-teleport");
         blacklistedWorlds = new HashSet<>(this.plugin.getConfig().getStringList("blacklisted-worlds"));
     }
 
@@ -48,6 +50,11 @@ public class RuleManager {
     }
 
     public Location shouldTeleportPlayer(Player player, Location from, Location toLocation) {
+        if (!autoTeleport) {
+            this.plugin.debugLogger("Auto teleport disabled");
+            return null;
+        }
+
         World toWorld = toLocation.getWorld();
 
         // If this world is inside the configs blacklist, ignore

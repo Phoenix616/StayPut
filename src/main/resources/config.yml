@@ -8,6 +8,9 @@ mysql:
     username: "root"
     password: ""
 
+# Automatically teleport on world change
+auto-teleport: false
+
 # Blacklisted worlds, which worlds should be excluded from the teleport actions?
 # Example layout
 # blacklisted-worlds:

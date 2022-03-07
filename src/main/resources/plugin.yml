@@ -9,5 +9,5 @@ softdepend: [Multiverse-Portals]
 commands:
     stayput:
         description: Main command
-        usage: /stayput <command>
+        usage: /<command> tp <player> <world>|reload
         aliases: [stay, sp]

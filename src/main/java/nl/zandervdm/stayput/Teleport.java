@@ -49,12 +49,7 @@ public class Teleport {
             Location previousLocation = this.plugin.getRuleManager().shouldTeleportPlayer(player, from, to);
 
             if (previousLocation != null) {
-                if (this.isPressurePlate(previousLocation)) {
-                    // Find a valid spot around the location
-                    Location newLocation = this.findAvailableLocation(previousLocation);
-                    if (newLocation != null) previousLocation = newLocation;
-                }
-
+                previousLocation = makeLocationSafe(previousLocation);
                 //There is a location, and the player should teleport, so teleport him
                 this.plugin.debugLogger("Teleporting player to his previous location");
 //                ourTeleports.add(new TeleportData(player, previousLocation));
@@ -64,6 +59,15 @@ public class Teleport {
             }
         }
         return null; // We didn't teleport the player ourselves, let the event continue normally
+    }
+
+    public Location makeLocationSafe(Location location) {
+        if (this.isPressurePlate(location)) {
+            // Find a valid spot around the location
+            Location newLocation = this.findAvailableLocation(location);
+            if (newLocation != null) return newLocation;
+        }
+        return location;
     }
 
     protected boolean isPressurePlate(Location toLocation) {
